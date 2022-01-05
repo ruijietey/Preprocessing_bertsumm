@@ -1,108 +1,127 @@
 By
-Alex Ward
+Helen Pow
 
-A city trader who conned millions of pounds from wealthy investors was yesterday ordered to pay back # 1 .
+PUBLISHED :
 
-Nicholas Levene , 48 , was jailed for 13 years last November after he admitted orchestrating a lucrative Ponzi scheme which raked in # 316million .
+09:16 EST , 29 May 2013
 
-He used the money to finance his own lavish lifestyle with private jets , super yachts and round-the-world trips .
 
-Must pay # 1 : Jailed city trader Nicholas Levene -LRB- pictured arriving at court in November last year -RRB- , who conned wealthy investors out of # 316million , was ordered to pay the nominal sum because he is bankrupt
+|
 
-Now , because he is bankrupt , he has been given seven days to pay back a nominal sum of # 1 .
+UPDATED :
 
-The Serious Fraud Office found that Levene had conned # 32,352,027 from some of Britain 's most successful businessmen .
+10:51 EST , 29 May 2013
 
-But with interest and lost profits , his clients are believed to be # 101,685,406 out of pocket .
+Miami Heat superstar LeBron James gave a touching tribute to one of his biggest fans last night - wearing her name on his sneakers just hours after she lost a grueling six-year battle with cancer .
 
-It is unclear how much , if any of
-this , his victims have recouped . Justine Davidge , representing the SFO ,
-told Southwark Crown Court yesterday that Levene had been subject to a
-bankruptcy order since October 2009 and there were ongoing
-investigations into his assets .
+Bella Rodriguez-Torres , 10 , loved nothing more than watching the Heat play basketball with her family . But she passed away yesterday after fighting the disease for more than half her young life .
 
-Jailed : Levene , nicknamed Beano because of his love of the comic -LRB- pictured left on the trading floor in 1990 , and right with wife Tracy -RRB- , was jailed for 13 years in November last year
+Bella was diagnosed with an aggressive form of cancer at age four , and astounded doctors when she recovered from the illness - something her parents deemed a miracle .
 
-She added that anything seized would
-be dealt with by bankruptcy officials .
+But last year , her tumors returned , and , despite putting up another fierce fight , her condition deteriorated and she slipped away peacefully surrounded by family and friends .
 
-` In respect of the realisable
-amount , we suggest the court make a nominal order of # 1 to be paid in
-seven days , ' she said . ` It may be in the future , Mr Levene could come
-into further realisable assets . '
+SCROLL DOWN FOR VIDEO
 
-Levene admitted ripping off a series
-of high-fliers , including Sir Brian Souter and his sister Ann Gloag , the
-founders of the Stagecoach bus and rail group ; Richard Caring , owner of
-The Ivy and Le Caprice restaurants in the West End ; and Russell
-Bartlett , director of the R3 Investment Group and former owner of Hull
-City Football Club . Nicknamed Beano because of his childhood love of the
-comic book , Levene was a successful City worker with an estimated
-wealth of # 15million to # 20million in 2005 .
+Brave battle : Bella Rodriguez-Torres , pictured left and right , died on Tuesday after a six year battle with cancer
 
-High-flyer : Levene conned some of Britain 's most successful businessmen while owning this # 2million eight-bedroom property in Barnet , North London
+Family : Bella Rodriguez-Torres , pictured bottom left in happy times with her father Raymond , mother Shannah and little sister , bottom right , Rayna , was diagnosed with cancer aged four
 
-Lavish lifestyle : Levene ran a multi-million pound illegal ` Ponzi ' fraud scheme which he used to finance private jets -LRB- file picture -RRB- , super yachts , a # 150,000-a-year box at Ascot and on hosting # 10,000-a-day pheasant shoots
+` Bella did n't lose her battle with cancer but instead won the reward of an eternal life , ' her mother , Shannah , told CBS4 .
 
-But he was addicted to gambling , spending fortunes on spread betting , and had an insatiable taste for luxury .
+Bella 's parents , Raymond and Shannah , and Bella 's younger
+sister , Rayna , coined the phrase ` Live Like Bella ' during her extensive
+and grueling chemotherapy sessions .
 
-Levene , a former deputy chairman of
-Leyton Orient Football Club , admitted one count of false accounting , one
-of obtaining a money transfer by deception , and 12 of fraud .
+And at
+Tuesday night 's Miami Heat Vs Pacers game , LeBron James and Dwyane Wade
+wore shoes with #LiveLikeBella written on them in honor of the brave
+Heat fan .
 
-He would take from Peter to pay Paul
-and move the funds between accounts in the financial havens of Jersey ,
-Switzerland and Israel .
+' -LRB- Dwyane -RRB- came to me with the story today , it was a no-brainer , ' James said on Tuesday , according to Yahoo Sport . ` It 's sad . It puts everything in perspective . At the end of the day , this game is just basketball . Two great teams , we 're competing . But it 's just basketball .
 
-Seeing stars : The fraudster spent # 588,000 on his second son 's Bar Mitzvah celebration , which featured a performance by girl band The Saturdays -LRB- file picture -RRB-
+` You have a little girl , or any kid that loses her life over an illness . It 's very sad . It 's very sad ... what happened to Bella puts everything in perspective . '
 
-Spent big : His fraud scheme meant he could pay for a # 150,000-a-year box at Ascot -LRB- file picture -RRB- but with interest and potential profits considered , clients are believed to have lost out by # 101.6 million
+Strong : The little girl loved to watch the Heat play , and copy her idol , LeBron , right ,
 
-Victim : Stagecoach Group 's co-founders , brother and sister Sir Brian Souter and Ann Gloag -LRB- pictured -RRB- lost # 10million
+Heat fan : Basketball star LeBron James wore sneakers , pictured , with Bell 's name on them on Tuesday night in the little Heat fan 's honor
 
-With his network of contacts and
-strong reputation , he won people 's faith with seemingly concrete
-investment deals from which he would take a commission or fee .
+Shannah and Bella 's father , Raymond , broke the sad news on their daughter 's Facebook page , which has more than 62,000 followers .
 
-The married father of three took
-millions of investors ' funds , promising to invest the money in lucrative
-rights-issue releases from companies such as HSBC , Lloyds TSB and
-mining firms Xstrata and Rio Tinto .
+Quoting the bible , they wrote : ` When
+he had received the drink , Jesus said , `` It is finished . '' With that , he
+bowed his head and gave up his spirit . '
 
-But he dug an ever-deepening financial
-hole for himself , having to fob off clients and make excuses about why
-he could not pay them .
+Before adding : ` Bella has now joined Jesus in heaven . She went peacefully , surrounded by love ... '
 
-Living the high life , he had a chauffeur-driven Bentley and went on several holidays a year , each lasting several weeks .
+Bella was a happy , bubbly toddler who loved Sponge Bob Square Pants and playing with Lego .
 
-Investigators found evidence of round-the-world trips , yacht hire and top hotel stays in Australia , South Africa and Israel .
+But
+in 2007 , at the tender age of just four , she became paralyzed from a
+tumor on her spine and was diagnosed with stage four Alveolar
+Rhabdomyosarcoma .
 
-The fraudster had a fleet of luxury
-cars and spent # 588,000 on his second son 's Bar Mitzvah celebration ,
-which featured a performance by girlband The Saturdays . Levene 's main
-house was a # 2million eight-bedroom property in Barnet , North London .
+She
+was thrown into a life of chemotherapy - 54 weeks of it - radiation -
+16 weeks - and surgery as doctors battled to rid her little body tumors
+in more than seven sites .
 
-His gambling was huge , with investigators finding evidence of him blowing # 720,000 on a cricket match bet in 2007 .
+But rid they did . And soon she was in remission .
 
-Having been told about the seizure of
-Levene 's assets , Judge Martin Beddow said : ` As there is nothing
-available , I direct the payable amount will be the nominal amount of # 1
-to be paid in seven days . '
+' I am able to walk , run and jump again ! ' her parents exclaimed for her on her website at the time .
 
-Levene did not appear in court for the hearing .
+Five times over : Bella had made news for fighting cancer five times in the course of her short life
+
+Close : Bella Rodriguez-Torres ' family , pictured with her , were by her side throughout her grueling battle
+
+But
+the dogged illness returned in April 2009 , when doctors found a tumor
+in her brain and she underwent full brain radiation plus more
+chemotherapy .
+
+She won again , however , and was in remission until
+September 2011 , when the cancer attacked her ovary .
+
+The following January , three new tumors were discovered in her abdomen and she had further treatment . But just a month later , four tumors were found in her pelvis and by January 2013 , despite undergoing chemotherapy again , doctors found the tumors had grown .
+
+The seriousness of her condition led doctors to recommend intensive surgery , and in March , Bella traveled from Miami to Houston to have a 16 hour surgery to remove the tumors , her uterus , her ovaries and to have her entire abdomen washed in hot chemo .
+
+Though despite those treatments , Bella 's organs began failing .
+
+Her kidney and lung functions were greatly affected and her bone marrow was exhausted plus ultrasounds of Bella 's lungs showed new disease had appeared on the lining .
+
+Tributes : Tributes are piling in for Bella who inspired many with her courage
+
+Hospice : Bella , pictured , had been under hospice care since the beginning of May
+
+At the start of May , her parents made the difficult decision to stop treatment and she entered a hospice .
+
+` There are few words that can describe what it feels like to have to make a decision of this magnitude . While it has been painstaking to decide to no longer fight and now just ensure her comfort , we are at peace , ' her mother told CBS4 earlier this month .
+
+Through-out her six-year battle , her parents have chronicled her progress , and the high highs and extremely low lows have been followed by thousands around the world . Many well-wishers have donated money to help pay for her care and prayed for the brave little girl and her family .
+
+And that 's what her heartbroken parents asked for most of all on Tuesday .
+
+` Please pray for us now for the strength and peace to continue to #LIVELIKEBELLA , ' they said .
+
+Click here to donate to Bella 's charity fund .
 
 @highlight
 
-Nicholas Levene must pay the nominal sum because he is bankrupt
+Bella Rodriguez-Torres was diagnosed with stage four Alveolar
+Rhabdomyosarcoma at age four
 
 @highlight
 
-He used the money for private jets , super yachts , a # 150,000-a-year box at Ascot and to host # 10,000-a-day pheasant shoots
+The brave 10-year-old fought the illness but it came back four times
 
 @highlight
 
-The city trader spent # 588,000 on his son 's Bar Mitzvah hiring girl band The Saturday 's
+Her parents chronicled her countless chemotherapy and radiation treatments on Facebook with over 62,000 followers and on her website
 
 @highlight
 
-He tricked some of Britain 's most successful businessmen including Stagecoach boss Sir Brian Souter
+She passed away peacefully on Tuesday surrounded by family and friends
+
+@highlight
+
+At Tuesday night 's Miami Heat Vs Pacers game , LeBron James wrote #LiveLikeBella on his sneakers in honor of the young fan

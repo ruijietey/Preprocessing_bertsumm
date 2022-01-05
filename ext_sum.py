@@ -3,7 +3,21 @@ import numpy as np
 import torch
 from transformers import BertTokenizer
 from nltk.tokenize import sent_tokenize
+import json
 from models.model_builder import ExtSummarizer
+
+
+def load_model(model_type):
+    try:
+        print(f"Loading {model_type} trained model...")
+        # checkpoint = torch.load(f'./checkpoints/{model_type}.pt', map_location=lambda storage, loc: storage)
+        checkpoint = torch.load(f'./checkpoints/{model_type}.pt', map_location="cpu")["model"]
+        print(f"Model: {model_type} loaded.")
+    except:
+        raise IOError(f'checkpoint file does not exist - "./checkpoints/{model_type}.pt"')
+
+    model = ExtSummarizer(device="cpu", checkpoint=checkpoint, bert_type=model_type)
+    return model
 
 
 def preprocess(source_fp, data_type):
@@ -15,14 +29,18 @@ def preprocess(source_fp, data_type):
     """
     with open(source_fp) as source:
         raw_text = source.read().replace("\n", " ").replace("[CLS] [SEP]", " ")
-    parts = raw_text.split("@highlight")
-    raw_text = parts[0]
-    summary = parts[1:]
-    summary = [s.strip()+"." for s in summary]
-    print(f'original: {raw_text}')
-    print(f'gold summary: {summary}')
-    sents = sent_tokenize(raw_text)
-    processed_text = "[CLS] [SEP]".join(sents)
+    try:
+        assert(data_type == "CNNDM")
+        parts = raw_text.split("@highlight")
+        raw_text = parts[0]
+        summary = parts[1:]
+        summary = [s.strip() + "." for s in summary]
+        print(f'original: {raw_text}')
+        print(f'gold summary: {summary}')
+        sents = sent_tokenize(raw_text)
+        processed_text = "[CLS] [SEP]".join(sents)
+    except:
+        raise NotImplementedError("Different type of data type used as input")
 
     return processed_text, summary, len(sents)
 
@@ -65,61 +83,40 @@ def load_text(processed_text, max_pos, device):
     return src, mask_src, segs, clss, mask_cls, src_text
 
 
-def test(model, input_data, result_path, max_length, block_trigram=True):
-    def _get_ngrams(n, text):
-        ngram_set = set()
-        text_length = len(text)
-        max_index_ngram_start = text_length - n
-        for i in range(max_index_ngram_start + 1):
-            ngram_set.add(tuple(text[i : i + n]))
-        return ngram_set
+def get_selected_ids(model, input_data, result_path, max_length):
+    with torch.no_grad():
+        src, mask, segs, clss, mask_cls, src_str = input_data
+        sent_scores, mask = model(src, segs, clss, mask, mask_cls)
+        sent_scores = sent_scores + mask.float()
+        sent_scores = sent_scores.cpu().data.numpy()
+        selected_ids = np.argsort(-sent_scores, 1)
+        print(f'src: {src}')
+        print(f'src str: {src_str[0]}')
+        print(f'selected ids: {selected_ids[0][:max_length]}')
+        print(f'sentence scores: {sent_scores}')
+        # for i, sid in enumerate(selected_ids[0][:max_length]):
+        #     print(f'Sentence Ranking: {i+1} with ID: {sid}:')
+        #     print(src_str[0][sid])
 
-    def _block_tri(c, p):
-        tri_c = _get_ngrams(3, c.split())
-        for s in p:
-            tri_s = _get_ngrams(3, s.split())
-            if len(tri_c.intersection(tri_s)) > 0:
-                return True
-        return False
-
-    with open(result_path, "w") as save_pred:
-        with torch.no_grad():
-            src, mask, segs, clss, mask_cls, src_str = input_data
-            sent_scores, mask = model(src, segs, clss, mask, mask_cls)
-            sent_scores = sent_scores + mask.float()
-            sent_scores = sent_scores.cpu().data.numpy()
-            selected_ids = np.argsort(-sent_scores, 1)
-
-            pred = []
-            for i, idx in enumerate(selected_ids):
-                _pred = []
-                if len(src_str[i]) == 0:
-                    continue
-                for j in selected_ids[i][: len(src_str[i])]:
-                    if j >= len(src_str[i]):
-                        continue
-                    candidate = src_str[i][j].strip()
-                    if block_trigram:
-                        if not _block_tri(candidate, _pred):
-                            _pred.append(candidate)
-                    else:
-                        _pred.append(candidate)
-
-                    if len(_pred) == max_length:
-                        break
-
-                _pred = " ".join(_pred)
-                pred.append(_pred)
-
-            for i in range(len(pred)):
-                save_pred.write(pred[i].strip() + "\n")
+        return src_str[0], selected_ids[0][:max_length].tolist()
 
 
-def summarize(raw_txt_fp, result_fp, model, max_length=3, max_pos=512, return_summary=True, data_type="CNN/DM"):
+def summarize(raw_txt_fp, result_fp, model_type, max_length=3, max_pos=512, data_type="CNNDM"):
+    main_data = {}
+    index_data = {}
+    model = load_model(model_type)
     model.eval()
     source_text, summary, full_length = preprocess(raw_txt_fp, data_type)
     input_data = load_text(source_text, max_pos, device="cpu")
-    test(model, input_data, result_fp, max_length, block_trigram=False)   # Do not use block_trigram because Matchsum / Siamese-BERT will do semantic matching for at doc level
-    if return_summary:
-        return open(result_fp).read().strip()
-        
+    text, selected_ids = get_selected_ids(model, input_data, result_fp, max_length)   # Do not use block_trigram because Matchsum / Siamese-BERT will do semantic matching for at doc level
+
+    # Output to JSONL
+    main_data["text"] = text
+    main_data["summary"] = summary
+    index_data["sent_id"] = selected_ids
+    main_fp = f'{result_fp}{data_type}_{model_type}.jsonl'
+    index_fp = f'{result_fp}index.jsonl'
+    with open(main_fp, 'a') as f:
+        print(json.dumps(main_data), file=f)
+    with open(index_fp, 'a') as f:
+        print(json.dumps(index_data), file=f)
