@@ -1,23 +1,8 @@
-import time
 import numpy as np
 import torch
 from transformers import BertTokenizer
 from nltk.tokenize import sent_tokenize
 import json
-from models.model_builder import ExtSummarizer
-
-
-def load_model(model_type):
-    try:
-        print(f"Loading {model_type} trained model...")
-        # checkpoint = torch.load(f'./checkpoints/{model_type}.pt', map_location=lambda storage, loc: storage)
-        checkpoint = torch.load(f'./checkpoints/{model_type}.pt', map_location="cpu")["model"]
-        print(f"Model: {model_type} loaded.")
-    except:
-        raise IOError(f'checkpoint file does not exist - "./checkpoints/{model_type}.pt"')
-
-    model = ExtSummarizer(device="cpu", checkpoint=checkpoint, bert_type=model_type)
-    return model
 
 
 def preprocess(source_fp, data_type):
@@ -90,7 +75,7 @@ def get_selected_ids(model, input_data, result_path, max_length):
         sent_scores = sent_scores + mask.float()
         sent_scores = sent_scores.cpu().data.numpy()
         selected_ids = np.argsort(-sent_scores, 1)
-        print(f'src: {src}')
+        # print(f'src: {src}')
         print(f'src str: {src_str[0]}')
         print(f'selected ids: {selected_ids[0][:max_length]}')
         print(f'sentence scores: {sent_scores}')
@@ -101,10 +86,9 @@ def get_selected_ids(model, input_data, result_path, max_length):
         return src_str[0], selected_ids[0][:max_length].tolist()
 
 
-def summarize(raw_txt_fp, result_fp, model_type, max_length=3, max_pos=512, data_type="CNNDM"):
+def summarize(raw_txt_fp, result_fp, model, model_type, max_length=3, max_pos=512, data_type="CNNDM"):
     main_data = {}
     index_data = {}
-    model = load_model(model_type)
     model.eval()
     source_text, summary, full_length = preprocess(raw_txt_fp, data_type)
     input_data = load_text(source_text, max_pos, device="cpu")
