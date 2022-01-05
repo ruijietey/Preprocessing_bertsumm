@@ -6,17 +6,25 @@ from nltk.tokenize import sent_tokenize
 from models.model_builder import ExtSummarizer
 
 
-def preprocess(source_fp):
+def preprocess(source_fp, data_type):
     """
+    - Extract golden summary and original text from document
     - Remove \n
     - Sentence Tokenize
     - Add [SEP] [CLS] as sentence boundary
     """
     with open(source_fp) as source:
         raw_text = source.read().replace("\n", " ").replace("[CLS] [SEP]", " ")
+    parts = raw_text.split("@highlight")
+    raw_text = parts[0]
+    summary = parts[1:]
+    summary = [s.strip()+"." for s in summary]
+    print(f'original: {raw_text}')
+    print(f'gold summary: {summary}')
     sents = sent_tokenize(raw_text)
     processed_text = "[CLS] [SEP]".join(sents)
-    return processed_text, len(sents)
+
+    return processed_text, summary, len(sents)
 
 
 def load_text(processed_text, max_pos, device):
@@ -107,11 +115,11 @@ def test(model, input_data, result_path, max_length, block_trigram=True):
                 save_pred.write(pred[i].strip() + "\n")
 
 
-def summarize(raw_txt_fp, result_fp, model, max_length=3, max_pos=512, return_summary=True):
+def summarize(raw_txt_fp, result_fp, model, max_length=3, max_pos=512, return_summary=True, data_type="CNN/DM"):
     model.eval()
-    processed_text, full_length = preprocess(raw_txt_fp)
-    input_data = load_text(processed_text, max_pos, device="cpu")
-    test(model, input_data, result_fp, max_length, block_trigram=False)  # Do not use block_trigram because Matchsum / Siamese-BERT will match and remove sentences as well
+    source_text, summary, full_length = preprocess(raw_txt_fp, data_type)
+    input_data = load_text(source_text, max_pos, device="cpu")
+    test(model, input_data, result_fp, max_length, block_trigram=False)   # Do not use block_trigram because Matchsum / Siamese-BERT will do semantic matching for at doc level
     if return_summary:
         return open(result_fp).read().strip()
         
