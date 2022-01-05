@@ -5,7 +5,7 @@ from nltk.tokenize import sent_tokenize
 import json
 
 
-DEVICE = 'cuda'
+DEVICE = 'cpu'
 
 def preprocess(source_fp, data_type):
     """

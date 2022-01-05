@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 from torch.nn.init import xavier_uniform_
 from transformers import BertModel, BertConfig, DistilBertConfig, DistilBertModel
-from models.MobileBert.modeling_mobilebert import MobileBertConfig, MobileBertModel
 from models.encoder import ExtTransformerEncoder
 
 class Bert(nn.Module):

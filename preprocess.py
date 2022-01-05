@@ -11,7 +11,7 @@ MAX_SENT = 5 # 5 sentences extracted for CNN/DM datasets
 INPUT_FP = "raw_data/less_stories/"
 RESULT_FP = 'results/'
 DATA_TYPE = "CNNDM"
-DEVICE = "cuda"
+DEVICE = "cpu"
 
 
 def load_model():
@@ -21,7 +21,7 @@ def load_model():
         checkpoint = torch.load(f'./checkpoints/{MODEL_TYPE}.pt', map_location=DEVICE)["model"]
         print(f"Model: {MODEL_TYPE} loaded.")
     except:
-        raise IOError(f'checkpoint file does not exist - "./checkpoints/{MODEL_TYPE}.pt"')
+        raise SystemError(f'checkpoint file does not exist OR invalid device - "./checkpoints/{MODEL_TYPE}.pt"')
 
     model = ExtSummarizer(device=DEVICE, checkpoint=checkpoint, bert_type=MODEL_TYPE)
     return model
