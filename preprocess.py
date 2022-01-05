@@ -2,6 +2,7 @@ from os import listdir
 from os.path import isfile, join
 import torch
 import time
+import datetime
 
 from utils import init_logger, logger
 from ext_sum import summarize
@@ -20,10 +21,10 @@ DEVICE = "cpu"
 
 def load_model():
     try:
-        print(f"Loading {MODEL_TYPE} trained model...")
+        logger.info(f"Loading {MODEL_TYPE} trained model...")
         # checkpoint = torch.load(f'./checkpoints/{model_type}.pt', map_location=lambda storage, loc: storage)
         checkpoint = torch.load(f'./checkpoints/{MODEL_TYPE}.pt', map_location=DEVICE)["model"]
-        print(f"Model: {MODEL_TYPE} loaded.")
+        logger.info(f"Model: {MODEL_TYPE} loaded.")
     except:
         raise SystemError(f'checkpoint file does not exist OR invalid device - "./checkpoints/{MODEL_TYPE}.pt"')
 
@@ -32,7 +33,7 @@ def load_model():
 
 
 def start_preprocess():
-    init_logger(LOG_FP)
+    init_logger(f'{LOG_FP+datetime.datetime.today()}.log')
     logger.info(f'Summarizing data from - "{INPUT_FP}" ...')
     logger.info(f'Maximum sentence: {MAX_SENT}. Data Type: {DATA_TYPE}')
     logger.info(f'Input: {INPUT_FP}. Output: {RESULT_FP}')
