@@ -2,6 +2,7 @@ import numpy as np
 import torch
 from transformers import BertTokenizer
 from nltk.tokenize import sent_tokenize
+from utils import logger, init_logger
 import json
 
 
@@ -103,6 +104,6 @@ def summarize(raw_txt_fp, result_fp, model, model_type, max_length=3, max_pos=51
     main_fp = f'{result_fp}{data_type}_{model_type}.jsonl'
     index_fp = f'{result_fp}index.jsonl'
     with open(main_fp, 'a') as f:
-        print(json.dumps(main_data), file=f)
+        logger.info(json.dumps(main_data), file=f)
     with open(index_fp, 'a') as f:
-        print(json.dumps(index_data), file=f)
+        logger.info(json.dumps(index_data), file=f)
