@@ -5,29 +5,29 @@ import time
 from ext_sum import summarize
 from models.model_builder import ExtSummarizer
 
-# Configure model type to use (bert / distilbert)
+# Configuration
 MODEL_TYPE = 'distilbert'
 MAX_SENT = 5 # 5 sentences extracted for CNN/DM datasets
 INPUT_FP = "raw_data/less_stories/"
 RESULT_FP = 'results/'
 DATA_TYPE = "CNNDM"
+DEVICE = "cuda"
 
 
 def load_model():
     try:
         print(f"Loading {MODEL_TYPE} trained model...")
         # checkpoint = torch.load(f'./checkpoints/{model_type}.pt', map_location=lambda storage, loc: storage)
-        checkpoint = torch.load(f'./checkpoints/{MODEL_TYPE}.pt', map_location="cpu")["model"]
+        checkpoint = torch.load(f'./checkpoints/{MODEL_TYPE}.pt', map_location=DEVICE)["model"]
         print(f"Model: {MODEL_TYPE} loaded.")
     except:
         raise IOError(f'checkpoint file does not exist - "./checkpoints/{MODEL_TYPE}.pt"')
 
-    model = ExtSummarizer(device="cpu", checkpoint=checkpoint, bert_type=MODEL_TYPE)
+    model = ExtSummarizer(device=DEVICE, checkpoint=checkpoint, bert_type=MODEL_TYPE)
     return model
 
 
 def start_preprocess():
-
     print(f'Summarizing data from - "{INPUT_FP}" ...')
     print(f'Maximum sentence: {MAX_SENT}. Data Type: {DATA_TYPE}')
     print(f'Input: {INPUT_FP}. Output: {RESULT_FP}')

@@ -5,6 +5,8 @@ from nltk.tokenize import sent_tokenize
 import json
 
 
+DEVICE = 'cuda'
+
 def preprocess(source_fp, data_type):
     """
     - Extract golden summary and original text from document
@@ -91,7 +93,7 @@ def summarize(raw_txt_fp, result_fp, model, model_type, max_length=3, max_pos=51
     index_data = {}
     model.eval()
     source_text, summary, full_length = preprocess(raw_txt_fp, data_type)
-    input_data = load_text(source_text, max_pos, device="cpu")
+    input_data = load_text(source_text, max_pos, device=DEVICE)
     text, selected_ids = get_selected_ids(model, input_data, result_fp, max_length)   # Do not use block_trigram because Matchsum / Siamese-BERT will do semantic matching for at doc level
 
     # Output to JSONL
