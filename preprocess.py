@@ -73,7 +73,7 @@ def start_preprocess():
 
     # Summarize and output to results for each doc
     documents = [f for f in listdir(INPUT_FP) if isfile(join(INPUT_FP, f))]
-    chunks = [documents[x:x + 4] for x in range(0, len(documents), 4)] # Break to smaller subsets
+    chunks = [documents[x:x + 10525] for x in range(0, len(documents), 10525)] # Break to smaller subsets
 
     # Preprocess files with multiprocessing
     procs = []
