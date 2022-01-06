@@ -8,7 +8,7 @@ from utils.logging import logger
 import json
 
 
-DEVICE = 'cpu'
+# DEVICE = 'cpu'
 # DEVICE = "cuda"
 
 def preprocess(source_fp, data_type):
@@ -77,7 +77,7 @@ def load_text(processed_text, max_pos, device):
 def get_selected_ids(model, input_data, max_length, device):
     with torch.no_grad():
         src, mask, segs, clss, mask_cls, src_str = input_data
-        sent_scores, mask = model(src.to(device), segs.to(device), clss.to(device), mask.to(device), mask_cls.to(device)).to(device)
+        sent_scores, mask = model(src, segs, clss, mask, mask_cls)
         sent_scores = sent_scores + mask.float()
         sent_scores = sent_scores.cpu().data.numpy()
         selected_ids = np.argsort(-sent_scores, 1)
@@ -92,13 +92,13 @@ def get_selected_ids(model, input_data, max_length, device):
         return src_str[0], selected_ids[0][:max_length].tolist()
 
 
-def summarize(raw_txt_fp, result_fp, model, model_type, max_length=3, max_pos=512, data_type="CNNDM"):
+def summarize(raw_txt_fp, result_fp, model, model_type, max_length=3, max_pos=512, data_type="CNNDM", device="cpu"):
     main_data = {}
     index_data = {}
     model.eval()
     source_text, summary, full_length = preprocess(raw_txt_fp, data_type)
-    input_data = load_text(source_text, max_pos, device=DEVICE)
-    text, selected_ids = get_selected_ids(model, input_data, max_length, device=DEVICE)   # Do not use block_trigram because Matchsum / Siamese-BERT will do semantic matching for at doc level
+    input_data = load_text(source_text, max_pos, device=device)
+    text, selected_ids = get_selected_ids(model, input_data, max_length, device=device)   # Do not use block_trigram because Matchsum / Siamese-BERT will do semantic matching for at doc level
 
     # Output to JSONL
     main_data["text"] = text

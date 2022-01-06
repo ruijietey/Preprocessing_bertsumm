@@ -45,7 +45,7 @@ def preprocess(chunk, model, device_id):
         logger.info("=============================")
         logger.info(f'Processing file: {doc} ...')
         input_fp = INPUT_FP + doc
-        summarize(input_fp, RESULT_FP, model, MODEL_TYPE, max_length=MAX_SENT, data_type=DATA_TYPE)
+        summarize(input_fp, RESULT_FP, model, MODEL_TYPE, max_length=MAX_SENT, data_type=DATA_TYPE, device=f'{DEVICE}:{device_id}')
         logger.info(f"Processing Time: {time.time() - start_time}s\n=============================\n")
     pass
     # for i, doc in enumerate(documents):
