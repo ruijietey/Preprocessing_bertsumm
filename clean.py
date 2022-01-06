@@ -22,8 +22,6 @@ with open(text_file, "r") as f:
 
     print(count)
 
-# print(original)
-
 with open(index_file, "r") as f:
     lines = f.readlines()
     count = 0
@@ -31,11 +29,20 @@ with open(index_file, "r") as f:
         if line != "\n":
             # print(line)
             count += 1
-            try:
-                indices.append(json.loads(line))
-            except:
-                print(line)
-                print(f'Line no: {i+1}, {count}th document')
-                # print(f'Content: {line}')
+            if count!= 291 and count!=2537 and count!= 2544:
+                try:
+                    indices.append(json.loads(line))
+                except:
+                    print(line)
+                    print(f'Line no: {i+1}, {count}th document')
+                    # print(f'Content: {line}')
 
     print(count)
+
+with open(RESULT_PATH+"cleaned.jsonl", "w") as f:
+    for sent in original:
+        print(json.dumps(sent), file=f)
+
+with open(RESULT_PATH+"indice.jsonl", "w") as f:
+    for sent_id in indices:
+        print(json.dumps(sent_id), file=f)
