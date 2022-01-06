@@ -1,6 +1,5 @@
 import numpy as np
 import torch
-from transformers import BertTokenizer
 import nltk
 nltk.download('punkt')
 from nltk.tokenize import sent_tokenize
@@ -36,8 +35,7 @@ def preprocess(source_fp, data_type):
     return processed_text, summary, len(sents)
 
 
-def load_text(processed_text, max_pos, device):
-    tokenizer = BertTokenizer.from_pretrained("bert-base-uncased", do_lower_case=True)
+def load_text(processed_text, max_pos, tokenizer, device):
     sep_vid = tokenizer.vocab["[SEP]"]
     cls_vid = tokenizer.vocab["[CLS]"]
 
@@ -92,12 +90,12 @@ def get_selected_ids(model, input_data, max_length, device):
         return src_str[0], selected_ids[0][:max_length].tolist()
 
 
-def summarize(raw_txt_fp, result_fp, model, model_type, max_length=3, max_pos=512, data_type="CNNDM"):
+def summarize(raw_txt_fp, result_fp, model, model_type, tokenizer, max_length=3, max_pos=512, data_type="CNNDM"):
     main_data = {}
     index_data = {}
     model.eval()
     source_text, summary, full_length = preprocess(raw_txt_fp, data_type)
-    input_data = load_text(source_text, max_pos, device=DEVICE)
+    input_data = load_text(source_text, max_pos, tokenizer, device=DEVICE)
     text, selected_ids = get_selected_ids(model, input_data, max_length, device=DEVICE)   # Do not use block_trigram because Matchsum / Siamese-BERT will do semantic matching for at doc level
 
     # Output to JSONL
@@ -107,6 +105,6 @@ def summarize(raw_txt_fp, result_fp, model, model_type, max_length=3, max_pos=51
     main_fp = f'{result_fp}{data_type}_{model_type}.jsonl'
     index_fp = f'{result_fp}index.jsonl'
     with open(main_fp, 'a') as f:
-        logger.info(json.dumps(main_data), f)
+        logger.info(json.dump(main_data, f))
     with open(index_fp, 'a') as f:
-        logger.info(json.dumps(index_data), f)
+        logger.info(json.dump(index_data, f))

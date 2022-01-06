@@ -2,6 +2,7 @@
 import os
 from os import listdir
 from os.path import isfile, join
+from transformers import BertTokenizer
 import multiprocessing
 import torch
 import time
@@ -36,16 +37,14 @@ def load_model():
     return model
 
 
-def preprocess(chunk, model):
-    # logger.info('Device ID %d' % device_id)
-    # logger.info('Device %s' % DEVICE)
-    # torch.cuda.set_device(device_id)
+def preprocess(chunk, model, tokenizer):
+
     for doc in chunk:
         start_time = time.time()
         logger.info("=============================")
         logger.info(f'Processing file: {doc} ...')
         input_fp = INPUT_FP + doc
-        summarize(input_fp, RESULT_FP, model, MODEL_TYPE, max_length=MAX_SENT, data_type=DATA_TYPE)
+        summarize(input_fp, RESULT_FP, model, MODEL_TYPE, tokenizer, max_length=MAX_SENT, data_type=DATA_TYPE)
         logger.info(f"Processing Time: {time.time() - start_time}s\n=============================\n")
     pass
     # for i, doc in enumerate(documents):
@@ -64,7 +63,7 @@ def start_preprocess():
     # logger.info(f'CUDA:{torch.cuda.is_available()}')
     # gpu_ranks = [int(i) for i in range(len(VISIBLE_GPUS.split(',')))]
     # os.environ["CUDA_VISIBLE_DEVICES"] = VISIBLE_GPUS
-
+    tokenizer = BertTokenizer.from_pretrained("bert-base-uncased", do_lower_case=True)
     init_logger(f'{LOG_FP+datetime.datetime.today().strftime("%d-%m-%Y")}.log')
     logger.info(f'Summarizing data from - "{INPUT_FP}" ...')
     logger.info(f'Maximum sentence: {MAX_SENT}. Data Type: {DATA_TYPE}')
@@ -75,14 +74,11 @@ def start_preprocess():
     # Summarize and output to results for each doc
     documents = [f for f in listdir(INPUT_FP) if isfile(join(INPUT_FP, f))]
     chunks = [documents[x:x + 4] for x in range(0, len(documents), 4)] # Break to smaller subsets
-    # num_gpus = len(gpu_ranks)
-    # mp = torch.multiprocessing.get_context('spawn')
 
     # Preprocess files with multiprocessing
     procs = []
-    # p = multiprocessing.Pool(5)
     for i in range(5):
-        p = multiprocessing.Process(target=preprocess, args=(chunks[i], model))
+        p = multiprocessing.Process(target=preprocess, args=(chunks[i], model, tokenizer))
         # p = mp.Process(target=preprocess, args=(chunks[i], model, i))
         p.start()
         procs.append(p)
