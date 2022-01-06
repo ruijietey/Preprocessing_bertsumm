@@ -77,7 +77,7 @@ def load_text(processed_text, max_pos, device):
 def get_selected_ids(model, input_data, max_length, device):
     with torch.no_grad():
         src, mask, segs, clss, mask_cls, src_str = input_data
-        sent_scores, mask = model(src.to(device), segs.to(device), clss.to(device), mask.to(device), mask_cls.to(device)).to(device)
+        sent_scores, mask = model(src, segs, clss, mask, mask_cls)
         sent_scores = sent_scores + mask.float()
         sent_scores = sent_scores.cpu().data.numpy()
         selected_ids = np.argsort(-sent_scores, 1)

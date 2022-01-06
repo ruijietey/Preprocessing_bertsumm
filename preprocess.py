@@ -18,16 +18,16 @@ INPUT_FP = "raw_data/less_stories/"
 RESULT_FP = 'results/'
 LOG_FP = 'logs/'
 DATA_TYPE = "CNNDM"
-# DEVICE = 'cpu'
-DEVICE = "cuda"
-VISIBLE_GPUS = "0,1,2,3"
+DEVICE = 'cpu'
+# DEVICE = "cuda"
+# VISIBLE_GPUS = "0,1,2,3"
 
 
 def load_model():
     try:
         logger.info(f"Loading {MODEL_TYPE} trained model...")
-        checkpoint = torch.load(f'./checkpoints/{MODEL_TYPE}.pt', map_location=lambda storage, loc: storage)["model"]
-        # checkpoint = torch.load(f'./checkpoints/{MODEL_TYPE}.pt', map_location=DEVICE)["model"]
+        # checkpoint = torch.load(f'./checkpoints/{MODEL_TYPE}.pt', map_location=lambda storage, loc: storage)["model"]
+        checkpoint = torch.load(f'./checkpoints/{MODEL_TYPE}.pt', map_location=DEVICE)["model"]
         logger.info(f"Model: {MODEL_TYPE} loaded.")
     except:
         raise SystemError(f'checkpoint file does not exist OR invalid device - "./checkpoints/{MODEL_TYPE}.pt"')
@@ -36,10 +36,10 @@ def load_model():
     return model
 
 
-def preprocess(chunk, model, device_id):
-    logger.info('Device ID %d' % device_id)
-    logger.info('Device %s' % DEVICE)
-    torch.cuda.set_device(device_id)
+def preprocess(chunk, model):
+    # logger.info('Device ID %d' % device_id)
+    # logger.info('Device %s' % DEVICE)
+    # torch.cuda.set_device(device_id)
     for doc in chunk:
         start_time = time.time()
         logger.info("=============================")
@@ -61,9 +61,9 @@ def preprocess(chunk, model, device_id):
     #         raise IOError("Unknown file type")
 
 def start_preprocess():
-    logger.info(f'CUDA:{torch.cuda.is_available()}')
-    gpu_ranks = [int(i) for i in range(len(VISIBLE_GPUS.split(',')))]
-    os.environ["CUDA_VISIBLE_DEVICES"] = VISIBLE_GPUS
+    # logger.info(f'CUDA:{torch.cuda.is_available()}')
+    # gpu_ranks = [int(i) for i in range(len(VISIBLE_GPUS.split(',')))]
+    # os.environ["CUDA_VISIBLE_DEVICES"] = VISIBLE_GPUS
 
     init_logger(f'{LOG_FP+datetime.datetime.today().strftime("%d-%m-%Y")}.log')
     logger.info(f'Summarizing data from - "{INPUT_FP}" ...')
@@ -75,15 +75,15 @@ def start_preprocess():
     # Summarize and output to results for each doc
     documents = [f for f in listdir(INPUT_FP) if isfile(join(INPUT_FP, f))]
     chunks = [documents[x:x + 4] for x in range(0, len(documents), 4)] # Break to smaller subsets
-    num_gpus = len(gpu_ranks)
-    mp = torch.multiprocessing.get_context('spawn')
+    # num_gpus = len(gpu_ranks)
+    # mp = torch.multiprocessing.get_context('spawn')
 
     # Preprocess files with multiprocessing
     procs = []
     # p = multiprocessing.Pool(5)
-    for i in range(num_gpus):
-        # p = multiprocessing.Process(target=preprocess, args=(chunks[i], model))
-        p = mp.Process(target=preprocess, args=(chunks[i], model, i))
+    for i in range(5):
+        p = multiprocessing.Process(target=preprocess, args=(chunks[i], model))
+        # p = mp.Process(target=preprocess, args=(chunks[i], model, i))
         p.start()
         procs.append(p)
 
