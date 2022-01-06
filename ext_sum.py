@@ -74,10 +74,10 @@ def load_text(processed_text, max_pos, device):
     return src, mask_src, segs, clss, mask_cls, src_text
 
 
-def get_selected_ids(model, input_data, result_path, max_length):
+def get_selected_ids(model, input_data, max_length, device):
     with torch.no_grad():
         src, mask, segs, clss, mask_cls, src_str = input_data
-        sent_scores, mask = model(src, segs, clss, mask, mask_cls)
+        sent_scores, mask = model(src.to(device), segs.to(device), clss.to(device), mask.to(device), mask_cls.to(device)).to(device)
         sent_scores = sent_scores + mask.float()
         sent_scores = sent_scores.cpu().data.numpy()
         selected_ids = np.argsort(-sent_scores, 1)
@@ -98,7 +98,7 @@ def summarize(raw_txt_fp, result_fp, model, model_type, max_length=3, max_pos=51
     model.eval()
     source_text, summary, full_length = preprocess(raw_txt_fp, data_type)
     input_data = load_text(source_text, max_pos, device=DEVICE)
-    text, selected_ids = get_selected_ids(model, input_data, result_fp, max_length)   # Do not use block_trigram because Matchsum / Siamese-BERT will do semantic matching for at doc level
+    text, selected_ids = get_selected_ids(model, input_data, max_length, device=DEVICE)   # Do not use block_trigram because Matchsum / Siamese-BERT will do semantic matching for at doc level
 
     # Output to JSONL
     main_data["text"] = text
