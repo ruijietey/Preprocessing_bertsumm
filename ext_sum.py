@@ -18,7 +18,7 @@ def preprocess(source_fp, data_type):
     - Sentence Tokenize
     - Add [SEP] [CLS] as sentence boundary
     """
-    with open(source_fp) as source:
+    with open(source_fp, 'r') as source:
         raw_text = source.read().replace("\n", " ").replace("[CLS] [SEP]", " ")
     try:
         assert(data_type == "CNNDM")
@@ -107,8 +107,8 @@ def summarize(raw_txt_fp, result_fp, model, model_type, tokenizer, max_length=3,
     main_fp = f'{result_fp}{data_type}_{model_type}.jsonl'
     index_fp = f'{result_fp}index.jsonl'
     with open(main_fp, 'a') as f:
-        logger.info(json.dump(main_data, f))
+        json.dump(main_data, f)
         f.write('\n')
     with open(index_fp, 'a') as f:
-        logger.info(json.dump(index_data, f))
+        json.dump(index_data, f)
         f.write('\n')
