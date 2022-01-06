@@ -8,6 +8,7 @@ import datetime
 import json
 
 
+LOG_FP = 'logs/'
 DEVICE = 'cpu'
 # DEVICE = "cuda"
 
@@ -92,7 +93,7 @@ def get_selected_ids(model, input_data, max_length, device):
 
 
 def summarize(raw_txt_fp, result_fp, model, model_type, tokenizer, max_length=3, max_pos=512, data_type="CNNDM"):
-    init_logger(f'{raw_txt_fp + datetime.datetime.today().strftime("%d-%m-%Y")}.log')
+    init_logger(f'{LOG_FP + datetime.datetime.today().strftime("%d-%m-%Y")}.log')
     main_data = {}
     index_data = {}
     model.eval()
@@ -103,12 +104,13 @@ def summarize(raw_txt_fp, result_fp, model, model_type, tokenizer, max_length=3,
     # Output to JSONL
     main_data["text"] = text
     main_data["summary"] = summary
+    logger.debug(f'main data {main_data}')
     index_data["sent_id"] = selected_ids
     main_fp = f'{result_fp}{data_type}_{model_type}.jsonl'
     index_fp = f'{result_fp}index.jsonl'
     with open(main_fp, 'a') as f:
-        json.dump(main_data, f)
+        print(json.dumps(main_data), file=f)
         f.write('\n')
     with open(index_fp, 'a') as f:
-        json.dump(index_data, f)
+        print(json.dumps(index_data), file=f)
         f.write('\n')
