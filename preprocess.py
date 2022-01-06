@@ -1,5 +1,5 @@
 # import glob
-import os
+import math
 from os import listdir
 from os.path import isfile, join
 from transformers import BertTokenizer
@@ -19,6 +19,7 @@ INPUT_FP = "raw_data/less_stories/"
 RESULT_FP = 'results/'
 LOG_FP = 'logs/'
 DATA_TYPE = "CNNDM"
+PROC_COUNT = 5
 DEVICE = 'cpu'
 # DEVICE = "cuda"
 # VISIBLE_GPUS = "0,1,2,3"
@@ -45,7 +46,7 @@ def preprocess(chunk, model, tokenizer):
         logger.info(f'Processing file: {doc} ...')
         input_fp = INPUT_FP + doc
         summarize(input_fp, RESULT_FP, model, MODEL_TYPE, tokenizer, max_length=MAX_SENT, data_type=DATA_TYPE)
-        logger.info(f"Processing Time: {time.time() - start_time}s\n=============================\n")
+        logger.info(f"Processing Time: {time.time() - start_time}s\n")
     pass
     # for i, doc in enumerate(documents):
     #     if doc[-5:] == "story" or doc[-3:] == "txt":
@@ -63,6 +64,7 @@ def start_preprocess():
     # logger.info(f'CUDA:{torch.cuda.is_available()}')
     # gpu_ranks = [int(i) for i in range(len(VISIBLE_GPUS.split(',')))]
     # os.environ["CUDA_VISIBLE_DEVICES"] = VISIBLE_GPUS
+    preproc_time = time.time()
     tokenizer = BertTokenizer.from_pretrained("bert-base-uncased", do_lower_case=True)
     init_logger(f'{LOG_FP+datetime.datetime.today().strftime("%d-%m-%Y")}.log')
     logger.info(f'Summarizing data from - "{INPUT_FP}" ...')
@@ -73,11 +75,13 @@ def start_preprocess():
 
     # Summarize and output to results for each doc
     documents = [f for f in listdir(INPUT_FP) if isfile(join(INPUT_FP, f))]
-    chunks = [documents[x:x + 10525] for x in range(0, len(documents), 10525)] # Break to smaller subsets
+    chunk_size = math.floor(len(documents)/PROC_COUNT)
+    logger.info(f"Chunk size: {chunk_size}")
+    chunks = [documents[x:x + chunk_size] for x in range(0, len(documents), chunk_size)] # Break to smaller subsets
 
     # Preprocess files with multiprocessing
     procs = []
-    for i in range(5):
+    for i in range(PROC_COUNT):
         p = multiprocessing.Process(target=preprocess, args=(chunks[i], model, tokenizer))
         # p = mp.Process(target=preprocess, args=(chunks[i], model, i))
         p.start()

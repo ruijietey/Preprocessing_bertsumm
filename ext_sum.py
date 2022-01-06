@@ -3,7 +3,8 @@ import torch
 import nltk
 nltk.download('punkt')
 from nltk.tokenize import sent_tokenize
-from utils.logging import logger
+from utils.logging import logger, init_logger
+import datetime
 import json
 
 
@@ -91,6 +92,7 @@ def get_selected_ids(model, input_data, max_length, device):
 
 
 def summarize(raw_txt_fp, result_fp, model, model_type, tokenizer, max_length=3, max_pos=512, data_type="CNNDM"):
+    init_logger(f'{raw_txt_fp + datetime.datetime.today().strftime("%d-%m-%Y")}.log')
     main_data = {}
     index_data = {}
     model.eval()
@@ -106,5 +108,7 @@ def summarize(raw_txt_fp, result_fp, model, model_type, tokenizer, max_length=3,
     index_fp = f'{result_fp}index.jsonl'
     with open(main_fp, 'a') as f:
         logger.info(json.dump(main_data, f))
+        f.write('\n')
     with open(index_fp, 'a') as f:
         logger.info(json.dump(index_data, f))
+        f.write('\n')
