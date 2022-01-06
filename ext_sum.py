@@ -1,3 +1,6 @@
+from os import listdir
+from os.path import isfile, join
+import time
 import numpy as np
 import torch
 from transformers import BertTokenizer
@@ -8,8 +11,21 @@ from utils.logging import logger
 import json
 
 
-# DEVICE = 'cpu'
+DEVICE = 'cpu'
 # DEVICE = "cuda"
+
+
+def preprocess_multi(input_path, result_path, model, model_type, max_sent,data_type):
+    documents = [f for f in listdir(input_path) if isfile(join(input_path, f))]
+    tokenizer = BertTokenizer.from_pretrained("bert-base-uncased", do_lower_case=True)
+    for doc in documents:
+        start_time = time.time()
+        logger.info("=============================")
+        logger.info(f'Processing file: {doc} ...')
+        input_fp = input_path + doc
+        summarize(input_fp, result_path, model, model_type, tokenizer, max_length=max_sent, data_type=data_type)
+        logger.info(f"Processing Time: {time.time() - start_time}s\n=============================\n")
+
 
 def preprocess(source_fp, data_type):
     """
@@ -36,8 +52,7 @@ def preprocess(source_fp, data_type):
     return processed_text, summary, len(sents)
 
 
-def load_text(processed_text, max_pos, device):
-    tokenizer = BertTokenizer.from_pretrained("bert-base-uncased", do_lower_case=True)
+def load_text(processed_text, max_pos, tokenizer, device):
     sep_vid = tokenizer.vocab["[SEP]"]
     cls_vid = tokenizer.vocab["[CLS]"]
 
@@ -92,13 +107,13 @@ def get_selected_ids(model, input_data, max_length, device):
         return src_str[0], selected_ids[0][:max_length].tolist()
 
 
-def summarize(raw_txt_fp, result_fp, model, model_type, max_length=3, max_pos=512, data_type="CNNDM", device="cpu"):
+def summarize(raw_txt_fp, result_fp, model, model_type, tokenizer, max_length=3, max_pos=512, data_type="CNNDM"):
     main_data = {}
     index_data = {}
     model.eval()
     source_text, summary, full_length = preprocess(raw_txt_fp, data_type)
-    input_data = load_text(source_text, max_pos, device=device)
-    text, selected_ids = get_selected_ids(model, input_data, max_length, device=device)   # Do not use block_trigram because Matchsum / Siamese-BERT will do semantic matching for at doc level
+    input_data = load_text(source_text, max_pos, tokenizer=tokenizer, device=DEVICE)
+    text, selected_ids = get_selected_ids(model, input_data, max_length, device=DEVICE)   # Do not use block_trigram because Matchsum / Siamese-BERT will do semantic matching for at doc level
 
     # Output to JSONL
     main_data["text"] = text
@@ -107,6 +122,6 @@ def summarize(raw_txt_fp, result_fp, model, model_type, max_length=3, max_pos=51
     main_fp = f'{result_fp}{data_type}_{model_type}.jsonl'
     index_fp = f'{result_fp}index.jsonl'
     with open(main_fp, 'a') as f:
-        logger.info(json.dumps(main_data), f)
+        json.dump(main_data, f)
     with open(index_fp, 'a') as f:
-        logger.info(json.dumps(index_data), f)
+        json.dump(index_data, f)
