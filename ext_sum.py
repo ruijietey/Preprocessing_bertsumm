@@ -1,12 +1,15 @@
 import numpy as np
 import torch
 from transformers import BertTokenizer
+import nltk
+nltk.download('punkt')
 from nltk.tokenize import sent_tokenize
-from utils import logger, init_logger
+from utils.logging import logger
 import json
 
 
 DEVICE = 'cpu'
+# DEVICE = "cuda"
 
 def preprocess(source_fp, data_type):
     """
@@ -23,12 +26,12 @@ def preprocess(source_fp, data_type):
         raw_text = parts[0]
         summary = parts[1:]
         summary = [s.strip() + "." for s in summary]
-        print(f'original: {raw_text}')
-        print(f'gold summary: {summary}')
-        sents = sent_tokenize(raw_text)
+        # print(f'original: {raw_text}')
+        # print(f'gold summary: {summary}')
+        sents = sent_tokenize(raw_text, language='english')
         processed_text = "[CLS] [SEP]".join(sents)
     except:
-        raise NotImplementedError("Different type of data type used as input")
+        raise NotImplementedError(f"Different type of data type used as input {data_type}")
 
     return processed_text, summary, len(sents)
 
@@ -78,10 +81,10 @@ def get_selected_ids(model, input_data, result_path, max_length):
         sent_scores = sent_scores + mask.float()
         sent_scores = sent_scores.cpu().data.numpy()
         selected_ids = np.argsort(-sent_scores, 1)
-        # print(f'src: {src}')
-        print(f'src str: {src_str[0]}')
-        print(f'selected ids: {selected_ids[0][:max_length]}')
-        print(f'sentence scores: {sent_scores}')
+        logger.debug(f'src: {src}')
+        logger.debug(f'src str: {src_str[0]}')
+        logger.debug(f'selected ids: {selected_ids[0][:max_length]}')
+        logger.debug(f'sentence scores: {sent_scores}')
         # for i, sid in enumerate(selected_ids[0][:max_length]):
         #     print(f'Sentence Ranking: {i+1} with ID: {sid}:')
         #     print(src_str[0][sid])
@@ -104,6 +107,6 @@ def summarize(raw_txt_fp, result_fp, model, model_type, max_length=3, max_pos=51
     main_fp = f'{result_fp}{data_type}_{model_type}.jsonl'
     index_fp = f'{result_fp}index.jsonl'
     with open(main_fp, 'a') as f:
-        logger.info(json.dumps(main_data), file=f)
+        logger.info(json.dumps(main_data), f)
     with open(index_fp, 'a') as f:
-        logger.info(json.dumps(index_data), file=f)
+        logger.info(json.dumps(index_data), f)
