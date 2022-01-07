@@ -63,5 +63,11 @@ for i in range(len(cleaned_original)):
     if cleaned_original[i]["id"] != cleaned_indices[i]["id"]:
         print(f'{i} index mismatched')
 
-# for cleaned_doc in
+with open(RESULT_PATH+"cleaned.jsonl", "w") as f:
+    for cleaned_doc in cleaned_original:
+        print(json.dumps(cleaned_doc), file=f)
+
+with open(RESULT_PATH+"indices.jsonl", "w") as f:
+    for cleaned_id in cleaned_indices:
+        print(json.dumps(cleaned_id), file=f)
 
