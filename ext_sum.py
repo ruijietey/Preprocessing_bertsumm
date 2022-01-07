@@ -6,7 +6,7 @@ from nltk.tokenize import sent_tokenize
 from utils.logging import logger, init_logger
 import datetime
 import json
-
+import uuid
 
 LOG_FP = 'logs/'
 DEVICE = 'cpu'
@@ -102,15 +102,16 @@ def summarize(raw_txt_fp, result_fp, model, model_type, tokenizer, max_length=3,
     text, selected_ids = get_selected_ids(model, input_data, max_length, device=DEVICE)   # Do not use block_trigram because Matchsum / Siamese-BERT will do semantic matching for at doc level
 
     # Output to JSONL
+    doc_id = str(uuid.uuid4())
     main_data["text"] = text
     main_data["summary"] = summary
+    main_data["id"] = doc_id
     logger.debug(f'main data {main_data}')
     index_data["sent_id"] = selected_ids
+    index_data["id"] = doc_id
     main_fp = f'{result_fp}{data_type}_{model_type}.jsonl'
     index_fp = f'{result_fp}index.jsonl'
     with open(main_fp, 'a') as f:
         print(json.dumps(main_data), file=f)
-        f.write('\n')
     with open(index_fp, 'a') as f:
         print(json.dumps(index_data), file=f)
-        f.write('\n')

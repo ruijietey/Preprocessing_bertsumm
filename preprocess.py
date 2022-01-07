@@ -39,7 +39,6 @@ def load_model():
 
 
 def preprocess(chunk, model, tokenizer):
-
     for doc in chunk:
         start_time = time.time()
         logger.info("=============================")

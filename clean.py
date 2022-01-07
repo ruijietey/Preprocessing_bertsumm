@@ -7,42 +7,61 @@ index_file = RESULT_PATH + "index.jsonl"
 original = []
 indices = []
 
+passed_set = set()
+trace_doc_map = {}
+
 with open(text_file, "r") as f:
     lines = f.readlines()
     count = 0
     for i, line in enumerate(lines):
         if line != "\n":
-            # print(line)
             count += 1
             try:
-                original.append(json.loads(line))
+                obj = json.loads(line)
+                original.append(obj)
+                passed_set.add(obj["id"])
             except:
-                print(f'Line no: {i+1}, {count}th document')
-                # print(f'Content: {line}')
+                print(f'Text Line no: {i+1}, {count}th document')
+                print(f'Content: {line}')
 
-    print(count)
+    print(len(original))
 
 with open(index_file, "r") as f:
     lines = f.readlines()
     count = 0
     for i, line in enumerate(lines):
         if line != "\n":
-            # print(line)
             count += 1
-            if count!= 291 and count!=2537 and count!= 2544:
-                try:
-                    indices.append(json.loads(line))
-                except:
-                    print(line)
-                    print(f'Line no: {i+1}, {count}th document')
-                    # print(f'Content: {line}')
+            try:
+                obj = json.loads(line)
+                if obj["id"] in passed_set:
+                    indices.append(obj)
+            except:
+                print(line)
+                print(f'Index Line no: {i+1}, {count}th document')
+                # print(f'Content: {line}')
 
-    print(count)
+for i, sent_id in enumerate(indices):
+    if sent_id["id"] in passed_set:
+        trace_doc_map[sent_id["id"]] = i
 
-with open(RESULT_PATH+"cleaned.jsonl", "w") as f:
-    for sent in original:
-        print(json.dumps(sent), file=f)
+cleaned_original = []
+cleaned_indices = []
 
-with open(RESULT_PATH+"indice.jsonl", "w") as f:
-    for sent_id in indices:
-        print(json.dumps(sent_id), file=f)
+
+for doc in original:
+    if doc["id"] in trace_doc_map:
+        try:
+            cleaned_original.append(doc)
+            cleaned_indices.append(indices[trace_doc_map[doc["id"]]])
+        except:
+            print(doc)
+            print(trace_doc_map[doc["id"]])
+
+
+for i in range(len(cleaned_original)):
+    if cleaned_original[i]["id"] != cleaned_indices[i]["id"]:
+        print(f'{i} index mismatched')
+
+# for cleaned_doc in
+
