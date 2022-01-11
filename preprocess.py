@@ -48,7 +48,7 @@ def preprocess(chunk, model, tokenizer):
             summarize(input_fp, RESULT_FP, model, MODEL_TYPE, tokenizer, max_length=MAX_SENT, data_type=DATA_TYPE)
         except:
             print(f"{input_fp} has issue with preprocessing summarization")
-            raise ValueError(f"Has issue preprocessing {input_fp}")
+            logger.error(f"Has issue preprocessing {input_fp}")
         logger.info(f"Processing Time: {time.time() - start_time}s\n")
     pass
     # for i, doc in enumerate(documents):

@@ -1,8 +1,8 @@
 import json
 
-RESULT_PATH = "results/small"
+RESULT_PATH = "results/"
 USE_TRAIN_TEST_VAL = True
-TRAIN_RATIO = 0.6  # Train-test-val ratio, validation ratio = test ratio = (1-TRAIN_RATIO)/2
+TRAIN_RATIO = 0.8  # Train-test-val ratio, validation ratio = test ratio = (1-TRAIN_RATIO)/2
 
 validation_ratio = (1 - TRAIN_RATIO)/2
 test_ratio = validation_ratio
@@ -78,15 +78,15 @@ print(f'val start: {val_data_start}')
 print(f'test start: {test_data_start}')
 
 # Saving train, test, val text and summary data
-with open(RESULT_PATH+"train_CNNDM_bert.jsonl", "w") as f:
+with open(RESULT_PATH+"train_CNNDM_distilbert.jsonl", "w") as f:
     for i in range(val_data_start):
         print(json.dumps(cleaned_original[i]), file=f)
 
-with open(RESULT_PATH+"val_CNNDM_bert.jsonl", "w") as f:
+with open(RESULT_PATH+"val_CNNDM_distilbert.jsonl", "w") as f:
     for i in range(val_data_start, test_data_start):
         print(json.dumps(cleaned_original[i]), file=f)
 
-with open(RESULT_PATH+"test_CNNDM_bert.jsonl", "w") as f:
+with open(RESULT_PATH+"test_CNNDM_distilbert.jsonl", "w") as f:
     for i in range(test_data_start, len(cleaned_original)):
         print(json.dumps(cleaned_original[i]), file=f)
 
