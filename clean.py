@@ -82,6 +82,7 @@ with open(RESULT_PATH+"train_CNNDM_distilbert.jsonl", "w") as f:
     for i in range(val_data_start):
         print(json.dumps(cleaned_original[i]), file=f)
 
+
 with open(RESULT_PATH+"val_CNNDM_distilbert.jsonl", "w") as f:
     for i in range(val_data_start, test_data_start):
         print(json.dumps(cleaned_original[i]), file=f)

@@ -2,7 +2,7 @@
 import math
 from os import listdir
 from os.path import isfile, join
-from transformers import BertTokenizer
+from transformers import DistilBertTokenizer
 import multiprocessing
 import torch
 import time
@@ -68,7 +68,7 @@ def start_preprocess():
     # gpu_ranks = [int(i) for i in range(len(VISIBLE_GPUS.split(',')))]
     # os.environ["CUDA_VISIBLE_DEVICES"] = VISIBLE_GPUS
     preproc_time = time.time()
-    tokenizer = BertTokenizer.from_pretrained("bert-base-uncased", do_lower_case=True)
+    tokenizer = DistilBertTokenizer.from_pretrained("distilbert-base-uncased", do_lower_case=True)
     init_logger(f'{LOG_FP+datetime.datetime.today().strftime("%d-%m-%Y")}.log')
     logger.info(f'Summarizing data from - "{INPUT_FP}" ...')
     logger.info(f'Maximum sentence: {MAX_SENT}. Data Type: {DATA_TYPE}')
